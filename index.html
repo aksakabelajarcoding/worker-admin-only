@@ -3,136 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AKSAKA JAILBREAK -  LURAX SYSTEM</title>
+    <title>Luraxjoki - SUPREME LURAX</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;600;800&display=swap');
         
-        body { background: #000; color: #d4af37; font-family: 'Poppins', sans-serif; overflow: hidden; }
-        .gold-border { border: 1px solid #d4af37; }
-        .gold-bg { background: linear-gradient(145deg, #d4af37, #b8860b); }
-        .layer-content { display: none; height: 75vh; }
-        .layer-active { display: flex; animation: fadeIn 0.4s ease-out; }
-        .vip-card { background: rgba(10, 10, 10, 0.95); border: 2px solid #d4af37; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
-        .nav-btn.active { background: #d4af37; color: #000; font-weight: bold; box-shadow: 0 0 15px #d4af37; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .worker-card { background: rgba(255,255,255,0.03); border-left: 3px solid #d4af37; }
+        :root { --gold: #d4af37; --dark: #050505; }
+        body { background: var(--dark); color: var(--gold); font-family: 'Poppins', sans-serif; overflow: hidden; height: 100vh; }
+
+        /* VIP NEON ANIMATION */
+        .vip-card {
+            background: rgba(15, 15, 15, 0.9);
+            border: 2px solid transparent;
+            background-image: linear-gradient(rgba(15,15,15,0.9), rgba(15,15,15,0.9)), radial-gradient(circle at top left, #d4af37, #5c4a16);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.15);
+            backdrop-filter: blur(20px);
+            animation: glow 3s infinite alternate;
+        }
+
+        @keyframes glow { from { box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); } to { box-shadow: 0 0 60px rgba(212, 175, 55, 0.4); } }
+
+        .layer-content { display: none; height: 100%; width: 100%; opacity: 0; transform: scale(0.95); transition: all 0.4s ease; }
+        .layer-active { display: flex; opacity: 1; transform: scale(1); }
+
+        .nav-btn { position: relative; overflow: hidden; transition: 0.3s; border: 1px solid rgba(212, 175, 55, 0.3); }
+        .nav-btn.active { background: var(--gold); color: black; box-shadow: 0 0 20px var(--gold); transform: translateY(-5px); }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+        .gold-text { font-family: 'Orbitron', sans-serif; text-shadow: 0 0 10px rgba(212, 175, 55, 0.8); }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body class="flex items-center justify-center">
 
     <audio id="bgMusic" loop>
-        <source src="https://files.catbox.moe/oe10ag.mp3" type="audio/mpeg">
+        <source src="https://files.catbox.moe/v3m7w0.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="w-full max-w-5xl">
-        <header class="text-center mb-6">
-            <h1 class="text-4xl font-black tracking-widest gold-text font-['Orbitron'] uppercase">Aksaka Jailbreak</h1>
-            <p class="text-[10px] tracking-[0.4em] text-zinc-500 italic uppercase">Lurax High-End Joki System</p>
-        </header>
+    <div class="w-full max-w-4xl px-4">
+        <div class="text-center mb-10">
+            <h1 class="text-5xl font-black tracking-tighter gold-text uppercase italic">AKSAKA V30.0</h1>
+            <div class="h-1 w-32 bg-gold mx-auto mt-2 rounded-full shadow-[0_0_15px_#d4af37]"></div>
+            <p class="text-[10px] mt-4 tracking-[0.6em] text-zinc-500 font-bold uppercase">Ultimate Lurax Experience</p>
+        </div>
 
-        <nav class="flex flex-wrap justify-center gap-2 mb-6">
-            <button onclick="openTab('layer1')" id="b-layer1" class="nav-btn active px-5 py-2 text-[10px] border gold-border rounded-full uppercase">List Price</button>
-            <button onclick="openTab('layer2')" id="b-layer2" class="nav-btn px-5 py-2 text-[10px] border gold-border rounded-full uppercase">Calculator</button>
-            <button onclick="openTab('layer3')" id="b-layer3" class="nav-btn px-5 py-2 text-[10px] border gold-border rounded-full uppercase">Our Team</button>
-            <button onclick="openTab('layer4')" id="b-layer4" class="nav-btn px-5 py-2 text-[10px] border gold-border rounded-full uppercase">Contact</button>
-        </nav>
-
-        <main class="vip-card rounded-3xl p-8 relative min-h-[520px]">
+        <div class="vip-card rounded-[40px] p-8 md:p-12 relative flex flex-col items-center min-h-[550px]">
             
-            <div id="layer1" class="layer-content layer-active flex-col">
-                <div class="grid md:grid-cols-2 gap-8 h-full">
-                    <div class="overflow-y-auto pr-4 border-r border-white/5">
-                        <h2 class="text-lg font-bold mb-4 uppercase gold-text italic tracking-tighter">Premium Menu</h2>
-                        <div class="space-y-3 text-xs">
-                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Bronze - Silver</span><span>10k</span></div>
-                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Silver - Gold</span><span>15k</span></div>
-                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Gold - Platinum</span><span>20k</span></div>
-                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Platinum 4 - 3</span><span>9k</span></div>
-                            <div class="flex justify-between border-b border-zinc-800 pb-1 font-bold"><span>Bundling Legend - Mythic</span><span class="text-white">100k</span></div>
-                        </div>
+            <nav class="flex justify-center gap-4 absolute -top-6 left-0 right-0">
+                <button onclick="changeTab('l1')" id="bt-l1" class="nav-btn active bg-black px-6 py-2 rounded-full text-[10px] font-bold uppercase">Price</button>
+                <button onclick="changeTab('l2')" id="bt-l2" class="nav-btn bg-black px-6 py-2 rounded-full text-[10px] font-bold uppercase">Calc</button>
+                <button onclick="changeTab('l3')" id="bt-l3" class="nav-btn bg-black px-6 py-2 rounded-full text-[10px] font-bold uppercase">Elite</button>
+                <button onclick="changeTab('l4')" id="bt-l4" class="nav-btn bg-black px-6 py-2 rounded-full text-[10px] font-bold uppercase">Access</button>
+            </nav>
+
+            <div id="l1" class="layer-content layer-active flex-col">
+                <h2 class="text-2xl font-bold mb-6 italic underline decoration-gold underline-offset-8">PREMIUM CATALOG</h2>
+                <div class="grid md:grid-cols-2 gap-10 w-full">
+                    <div class="space-y-4 text-sm overflow-y-auto max-h-[250px] pr-4">
+                        <div class="flex justify-between border-b border-white/10 pb-2"><span>Bronze - Silver</span><span class="font-bold">10k</span></div>
+                        <div class="flex justify-between border-b border-white/10 pb-2"><span>Silver - Gold</span><span class="font-bold">15k</span></div>
+                        <div class="flex justify-between border-b border-white/10 pb-2"><span>Gold - Platinum</span><span class="font-bold">20k</span></div>
+                        <div class="flex justify-between border-b border-white/10 pb-2"><span>Bundle Plat-Diam</span><span class="text-white">35k</span></div>
+                        <div class="flex justify-between border-b border-white/10 pb-2"><span>Bundle Diam-Master</span><span class="text-white">50k</span></div>
+                        <div class="flex justify-between border-b border-white/10 pb-2"><span>Bundle Master-Legend</span><span class="text-white">65k</span></div>
+                        <div class="flex justify-between font-black text-lg mt-4 bg-gold/10 p-2 rounded"><span>Legend - Mythic</span><span>100k</span></div>
                     </div>
-                    <div class="flex flex-col justify-center items-center text-center">
-                        <h2 class="text-lg font-bold mb-4 uppercase italic">Portofolio VIP</h2>
-                        <div class="grid grid-cols-2 gap-2 w-full">
-                            <div class="h-24 bg-zinc-900 border border-zinc-800 rounded-lg flex items-center justify-center text-[10px] hover:border-yellow-500 transition">PREMIUM_SS_1</div>
-                            <div class="h-24 bg-zinc-900 border border-zinc-800 rounded-lg flex items-center justify-center text-[10px] hover:border-yellow-500 transition">PREMIUM_SS_2</div>
+                    <div class="bg-white/5 p-4 rounded-3xl border border-white/10">
+                        <h3 class="text-xs font-bold mb-4 opacity-50 uppercase">Portofolio Elite</h3>
+                        <div class="grid grid-cols-2 gap-2 h-40">
+                            <div class="bg-zinc-900 rounded-xl border border-gold/20 flex items-center justify-center text-[10px]">IMAGE_01</div>
+                            <div class="bg-zinc-900 rounded-xl border border-gold/20 flex items-center justify-center text-[10px]">IMAGE_02</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="layer2" class="layer-content flex-col items-center justify-center">
-                <div class="w-full max-w-sm text-center">
-                    <h2 class="text-2xl font-bold mb-6 italic uppercase tracking-widest">Pricing Engine</h2>
-                    <select id="vRank" class="w-full p-4 bg-zinc-950 border gold-border rounded-xl mb-4 outline-none text-sm">
-                        <option value="10000" data-name="Bronze - Silver">Bronze - Silver (10k)</option>
-                        <option value="35000" data-name="Bundle Plat - Diam">Bundle Plat - Diam (35k)</option>
-                        <option value="50000" data-name="Bundle Diam - Master">Bundle Diam - Master (50k)</option>
-                        <option value="65000" data-name="Bundle Master - Legend">Bundle Master - Legend (65k)</option>
-                        <option value="100000" data-name="Bundle Legend - Mythic">Bundle Legend - Mythic (100k)</option>
-                    </select>
-                    <input type="number" id="vPoint" placeholder="Mythic Point (Kelipatan 1000)" class="w-full p-4 bg-zinc-950 border gold-border rounded-xl mb-6 outline-none text-sm">
-                    <button onclick="vCalcAndOrder()" class="w-full gold-bg text-black font-black py-4 rounded-xl shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:scale-95 transition uppercase tracking-widest text-xs">Execute & Order WA</button>
-                    <div class="mt-10">
-                        <p class="text-[10px] uppercase opacity-50">Grand Total Amount</p>
-                        <h3 id="vRes" class="text-4xl font-['Orbitron'] font-bold text-white mt-2">Rp 0</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div id="layer3" class="layer-content flex-col overflow-y-auto pr-2">
-                <h2 class="text-xl font-bold mb-6 text-center uppercase tracking-[0.3em]">Elite Personnel</h2>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h3 class="text-xs font-bold mb-3 text-white border-b border-zinc-700 pb-1 uppercase">Commando (Workers)</h3>
-                        <div class="space-y-2">
-                            <div class="worker-card p-3 rounded-r-lg"><p class="text-sm font-bold">1. KAIROS</p><p class="text-[9px] text-green-500">ONLINE</p></div>
-                            <div class="worker-card p-3 rounded-r-lg"><p class="text-sm font-bold">2. KAII</p><p class="text-[9px] text-green-500">ONLINE</p></div>
-                            <div class="worker-card p-3 rounded-r-lg"><p class="text-sm font-bold">3. ZANN</p><p class="text-[9px] text-green-500">ONLINE</p></div>
-                            <div class="worker-card p-3 rounded-r-lg"><p class="text-sm font-bold">4. MAZZBEE</p><p class="text-[9px] text-green-500">ONLINE</p></div>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xs font-bold mb-3 text-white border-b border-zinc-700 pb-1 uppercase">Overseer (Admins)</h3>
-                        <div class="space-y-2">
-                            <div class="worker-card p-3 rounded-r-lg border-blue-500"><p class="text-sm font-bold">1. STOKY VOLT</p></div>
-                            <div class="worker-card p-3 rounded-r-lg border-red-500 bg-red-900/10"><p class="text-sm font-bold text-red-500">2. AKSAKA (BOSS)</p></div>
-                            <div class="worker-card p-3 rounded-r-lg border-blue-500"><p class="text-sm font-bold">3. YANN</p></div>
-                            <div class="worker-card p-3 rounded-r-lg border-blue-500"><p class="text-sm font-bold">4. SKYYY</p></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="layer4" class="layer-content flex-col items-center justify-center">
+            <div id="l2" class="layer-content flex-col items-center justify-center">
                 <div class="w-full max-w-sm space-y-4">
-                    <h2 class="text-center font-bold mb-6 uppercase italic">Access Line</h2>
-                    <a href="https://wa.me/628891262208" target="_blank" class="flex items-center p-4 bg-zinc-900 border gold-border rounded-2xl hover:bg-zinc-800 transition">
-                        <i class="fab fa-whatsapp text-2xl mr-4"></i>
-                        <div><p class="font-bold text-sm">ADMINISTRASI</p><p class="text-[9px] text-zinc-500">+62 889-1262-208</p></div>
+                    <h2 class="text-3xl font-black italic mb-8 text-center uppercase">Order Engine</h2>
+                    <select id="startR" class="w-full p-4 bg-black/50 border gold-border rounded-2xl outline-none text-sm shadow-inner">
+                        <option value="0">Bronze</option><option value="1">Silver</option><option value="2">Gold</option>
+                        <option value="3">Platinum</option><option value="7">Diamond</option>
+                    </select>
+                    <i class="fa fa-arrow-down block text-center opacity-30"></i>
+                    <select id="endR" class="w-full p-4 bg-black/50 border gold-border rounded-2xl outline-none text-sm shadow-inner">
+                        <option value="1">Silver</option><option value="3">Platinum</option>
+                        <option value="7">Diamond (Bundle)</option><option value="11">Master (Bundle)</option>
+                        <option value="15">Legend (Bundle)</option><option value="20">Mythic (Bundle)</option>
+                    </select>
+                    <button onclick="finalExecute()" class="w-full bg-gold text-black font-black py-5 rounded-2xl shadow-[0_10px_30px_rgba(212,175,55,0.4)] hover:scale-95 transition-all text-sm uppercase tracking-widest mt-6">PROCESS ORDER</button>
+                    <div id="totalBox" class="mt-8 text-center opacity-0 transition-all duration-700">
+                        <p class="text-[10px] font-bold uppercase opacity-40">Total Tagihan VIP</p>
+                        <h3 id="resV30" class="text-5xl font-black text-white mt-1">Rp 0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div id="l3" class="layer-content flex-col overflow-y-auto pr-2">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-black uppercase italic">Elite Command</h2>
+                    <p class="text-[9px] opacity-40">The Minds behind Aksaka Jailbreak</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-3">
+                        <h3 class="text-[10px] font-black border-l-2 border-gold pl-2">WORKERS (EKSEKUTOR)</h3>
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5"><p class="text-xs font-bold">1. KAIROS</p><p class="text-[8px] text-green-500">READY</p></div>
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5"><p class="text-xs font-bold">2. KAII</p><p class="text-[8px] text-green-500">READY</p></div>
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5"><p class="text-xs font-bold">3. ZANN</p><p class="text-[8px] text-green-500">READY</p></div>
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5"><p class="text-xs font-bold">4. MAZZBEE</p><p class="text-[8px] text-green-500">READY</p></div>
+                    </div>
+                    <div class="space-y-3">
+                        <h3 class="text-[10px] font-black border-l-2 border-gold pl-2">ADMINS (OVERSEER)</h3>
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5"><p class="text-xs font-bold">1. STOKY VOLT</p></div>
+                        <div class="p-4 bg-gold text-black rounded-2xl shadow-lg"><p class="text-xs font-black italic">2. AKSAKA (BOSS)</p></div>
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5"><p class="text-xs font-bold">3. YANN</p></div>
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5"><p class="text-xs font-bold">4. SKYYY</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="l4" class="layer-content flex-col items-center justify-center">
+                <div class="w-full max-w-sm space-y-4">
+                    <a href="https://wa.me/628891262208" target="_blank" class="flex items-center p-6 bg-white/5 rounded-[30px] border border-gold/20 hover:bg-gold hover:text-black transition-all group">
+                        <i class="fab fa-whatsapp text-4xl mr-6 group-hover:scale-110 transition"></i>
+                        <div><p class="font-black text-sm">OFFICIAL ADMIN</p><p class="text-[9px] opacity-60">General Order & Support</p></div>
                     </a>
-                    <a href="https://wa.me/6288902072245" target="_blank" class="flex items-center p-4 bg-zinc-900 border gold-border rounded-2xl hover:bg-zinc-800 transition">
-                        <i class="fa fa-shield-halved text-2xl mr-4"></i>
-                        <div><p class="font-bold text-sm">MANAGER (TECH ERROR)</p><p class="text-[9px] text-zinc-500">+62 889-0207-2245</p></div>
+                    <a href="https://wa.me/6288902072245" target="_blank" class="flex items-center p-6 bg-white/5 rounded-[30px] border border-gold/20 hover:bg-gold hover:text-black transition-all group">
+                        <i class="fa fa-skull text-4xl mr-6 group-hover:scale-110 transition"></i>
+                        <div><p class="font-black text-sm">SECURITY OPS</p><p class="text-[9px] opacity-60">Manager & Error Handler</p></div>
                     </a>
                 </div>
             </div>
 
-        </main>
+        </div>
         
-        <p class="mt-6 text-center text-[8px] tracking-[0.8em] text-zinc-700 uppercase italic">Aksaka Jailbreak Virtual Reality Core V1</p>
+        <div class="mt-8 text-center">
+            <p class="text-[7px] tracking-[1.2em] font-bold opacity-30 uppercase italic">Aksaka Jailbreak Supremacy System V30.0</p>
+        </div>
     </div>
 
     <script>
-        function openTab(id) {
-            const tabs = document.getElementsByClassName('layer-content');
-            for (let t of tabs) { t.classList.remove('layer-active'); }
-            const btns = document.getElementsByClassName('nav-btn');
-            for (let b of btns) { b.classList.remove('active'); }
+        function changeTab(id) {
+            const m = document.getElementById('bgMusic');
+            m.play().catch(() => {});
+            
+            document.querySelectorAll('.layer-content').forEach(l => { l.classList.remove('layer-active'); });
+            document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('active'); });
+            
+            setTimeout(() => { document.getElementById(id).classList.add('layer-active'); }, 50);
+            document.getElementById('bt-' + id).classList.add('active');
+        }
 
-            document.getElementById(id).classList.add('layer-active');
+        const prices = { "0-1": 10000, "1-2": 15000, "3-7": 35000, "7-11": 50000, "11-15": 65000, "15-20": 100000 };
+
+        function finalExecute() {
+            const s = document.getElementById('startR').value;
+            const e = document.getElementById('endR').value;
+            let total = prices[`${s}-${e}`] || (Math.abs(e-s) * 9000);
+            
+            document.getElementById('resV30').innerText = "Rp " + total.toLocaleString('id-ID');
+            document.getElementById('totalBox').style.opacity = "1";
+            
+            const startTxt = document.getElementById('startR').options[document.getElementById('startR').selectedIndex].text;
+            const endTxt = document.getElementById('endR').options[document.getElementById('endR').selectedIndex].text;
+            
+            const msg = `Halo Boss Aksaka V30,\n\nSaya mau order Joki VIP.\nDetail: ${startTxt} ➔ ${endTxt}\nTotal: Rp ${total.toLocaleString('id-ID')}\n\nEksekusi sekarang, Boss!`;
+            
+            setTimeout(() => { window.open(`https://wa.me/628891262208?text=${encodeURIComponent(msg)}`, '_blank'); }, 1500);
+        }
+    </script>
+</body>
+</html>
+d(id).classList.add('layer-active');
             document.getElementById('b-' + id).classList.add('active');
 
             const m = document.getElementById('bgMusic');
