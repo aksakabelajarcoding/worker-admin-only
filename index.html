@@ -3,189 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AKSAKA V30.0 - OMNIPOTENCE ELITE</title>
+    <title>AKSAKA JAILBREAK - ELITE LURAX</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Share+Tech+Mono&display=swap');
-        :root { --g: #d4af37; --b: #000; }
-        body { background: var(--b); color: var(--g); font-family: 'Share Tech Mono', monospace; overflow: hidden; height: 100vh; touch-action: manipulation; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;600&family=Share+Tech+Mono&display=swap');
         
-        /* BACKGROUND PARTICLE GACOR */
-        #canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; opacity: 0.3; }
+        body { background: #000; color: #d4af37; font-family: 'Poppins', sans-serif; overflow: hidden; touch-action: manipulation; }
+        .gold-border { border: 1px solid #d4af37; }
+        .gold-bg { background: linear-gradient(145deg, #d4af37, #b8860b); }
+        .layer-content { display: none; height: 75vh; }
+        .layer-active { display: flex; animation: fadeIn 0.4s ease-out; }
+        .vip-card { background: rgba(5, 5, 5, 0.98); border: 2px solid #d4af37; box-shadow: 0 0 50px rgba(212, 175, 55, 0.15); position: relative; z-index: 10; }
+        .nav-btn.active { background: #d4af37; color: #000; font-weight: bold; box-shadow: 0 0 25px #d4af37; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .worker-card { background: rgba(255,255,255,0.03); border-left: 3px solid #d4af37; transition: 0.3s; }
+        .worker-card:hover { background: rgba(212, 175, 55, 0.1); transform: translateX(5px); }
 
-        .omnipotence-card {
-            background: rgba(5, 5, 5, 0.95);
-            border: 1px solid var(--g);
-            box-shadow: 0 0 80px rgba(212, 175, 55, 0.15);
-            backdrop-filter: blur(25px);
-            border-radius: 10px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .layer-content { display: none; opacity: 0; transform: translateY(10px); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .layer-active { display: flex; flex-direction: column; opacity: 1; transform: translateY(0); }
-
-        .nav-btn { border-bottom: 2px solid transparent; transition: 0.3s; font-size: 10px; letter-spacing: 2px; }
-        .nav-btn.active { border-color: var(--g); color: white; text-shadow: 0 0 10px var(--g); }
-
-        /* FEATURE 100JT: BYPASS OVERLAY */
-        #bypass-screen {
+        /* FEATURE 100JT++: NEURAL OVERLAY */
+        #neural-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: black; z-index: 9999; display: none;
+            background: rgba(0,0,0,0.95); z-index: 9999; display: none;
             flex-direction: column; justify-content: center; align-items: center;
-            font-family: 'Share Tech Mono';
+            font-family: 'Share Tech Mono', monospace;
         }
+        .scan-line { width: 100%; height: 2px; background: #d4af37; position: absolute; top: 0; box-shadow: 0 0 20px #d4af37; animation: scanning 2s infinite linear; }
+        @keyframes scanning { 0% { top: 0%; } 100% { top: 100%; } }
+        
+        /* MATRIX BACKGROUND */
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.2; }
 
-        .glow-bar { width: 0%; height: 2px; background: var(--g); box-shadow: 0 0 20px var(--g); transition: 0.1s; }
+        /* SUNTIKAN SPIN & VOUCHER UI */
+        .promo-badge { font-size: 8px; color: #0f0; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        #wheel-container { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10000; background: rgba(0,0,0,0.9); border: 2px solid #d4af37; padding: 20px; border-radius: 20px; text-align: center; }
     </style>
 </head>
-<body class="flex items-center justify-center p-4">
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
 
-    <canvas id="canvas"></canvas>
+    <canvas id="bg-canvas"></canvas>
 
-    <div id="bypass-screen">
-        <p class="mb-4 text-xs animate-pulse">> INITIALIZING NEURAL BYPASS...</p>
-        <div class="w-64 border border-zinc-800 h-2 mb-4">
-            <div id="load-bar" class="glow-bar"></div>
-        </div>
-        <div id="log-out" class="text-[8px] opacity-50 h-32 overflow-hidden w-64"></div>
+    <div id="wheel-container">
+        <h2 class="font-['Orbitron'] text-gold mb-4">LUCKY SPIN ACTIVE</h2>
+        <div id="wheel-status" class="text-xs mb-4">Mencari Voucher Untukmu...</div>
+        <button onclick="closeSpin()" class="px-4 py-2 bg-gold text-black text-[10px] font-bold">REDEEM NOW</button>
     </div>
 
-    <audio id="bgMusic" loop src="https://files.catbox.moe/v3m7w0.mp3"></audio>
+    <div id="neural-overlay">
+        <div class="scan-line"></div>
+        <div class="text-center space-y-4">
+            <i class="fa fa-microchip text-5 gold-text animate-pulse mb-4 text-5xl"></i>
+            <h2 class="text-xl font-bold tracking-[0.5em] uppercase">Neural Bypass Active</h2>
+            <div class="w-64 h-1 bg-zinc-800 rounded-full overflow-hidden">
+                <div id="neural-bar" class="h-full bg-gold w-0 transition-all duration-100"></div>
+            </div>
+            <div id="neural-logs" class="text-[9px] text-zinc-500 h-20 overflow-hidden text-left w-64 italic"></div>
+        </div>
+    </div>
 
-    <div class="w-full max-w-lg">
-        <header class="text-center mb-8">
-            <h1 class="text-5xl font-black italic font-['Orbitron'] tracking-tighter" style="text-shadow: 0 0 15px var(--g);">AKSAKA V30</h1>
-            <p class="text-[8px] tracking-[1.5em] opacity-40 uppercase">Omnipotence Lurax Prime</p>
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/v3m7w0.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="w-full max-w-5xl relative">
+        <header class="text-center mb-6">
+            <h1 class="text-5xl font-black tracking-widest gold-text font-['Orbitron'] uppercase italic" style="text-shadow: 0 0 20px #d4af37;">Aksaka Jailbreak</h1>
+            <p class="text-[10px] tracking-[0.6em] text-zinc-500 italic uppercase mt-2">Lurax High-End Joki System</p>
         </header>
 
-        <main class="omnipotence-card p-6 min-h-[500px]">
-            <div class="flex justify-between mb-10 border-b border-white/5">
-                <button onclick="st('l1', this)" class="nav-btn active px-2 py-4">PRICELIST</button>
-                <button onclick="st('l2', this)" class="nav-btn px-2 py-4">ENGINE</button>
-                <button onclick="st('l3', this)" class="nav-btn px-2 py-4">TEAM</button>
-                <button onclick="st('l4', this)" class="nav-btn px-2 py-4">UPLINK</button>
+        <nav class="flex flex-wrap justify-center gap-2 mb-6">
+            <button onclick="openTab('layer1')" id="b-layer1" class="nav-btn active px-6 py-2 text-[10px] border gold-border rounded-full uppercase transition-all">List Price</button>
+            <button onclick="openTab('layer2')" id="b-layer2" class="nav-btn px-6 py-2 text-[10px] border gold-border rounded-full uppercase transition-all">Calculator</button>
+            <button onclick="openTab('layer3')" id="b-layer3" class="nav-btn px-6 py-2 text-[10px] border gold-border rounded-full uppercase transition-all">Our Team</button>
+            <button onclick="openTab('layer4')" id="b-layer4" class="nav-btn px-6 py-2 text-[10px] border gold-border rounded-full uppercase transition-all">Contact</button>
+        </nav>
+
+        <main class="vip-card rounded-3xl p-8 relative min-h-[550px]">
+            
+            <div id="layer1" class="layer-content layer-active flex-col">
+                <div class="grid md:grid-cols-2 gap-8 h-full">
+                    <div class="overflow-y-auto pr-4 border-r border-white/5">
+                        <h2 class="text-lg font-bold mb-4 uppercase gold-text italic tracking-tighter">Premium Menu</h2>
+                        <div class="space-y-3 text-xs">
+                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Bronze - Silver</span><span>10k</span></div>
+                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Silver - Gold</span><span>15k</span></div>
+                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Gold - Platinum</span><span>20k</span></div>
+                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Platinum 4 - 3</span><span>9k</span></div>
+                            <div class="flex justify-between border-zinc-800 pb-1 font-bold"><span>Bundling Legend - Mythic</span><span class="text-white">100k</span></div>
+                            <p class="text-[9px] text-zinc-500 mt-4 italic">Semua proses dilakukan oleh tim pro tanpa cheat/hack.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center items-center text-center">
+                        <h2 class="text-lg font-bold mb-4 uppercase">Portofolio VIP</h2>
+                        <div class="grid grid-cols-2 gap-2 w-full">
+                            <div class="h-24 bg-zinc-900 border border-zinc-800 rounded-lg flex items-center justify-center text-[10px] hover:border-yellow-500 transition cursor-crosshair">PREMIUM_SS_1</div>
+                            <div class="h-24 bg-zinc-900 border border-zinc-800 rounded-lg flex items-center justify-center text-[10px] hover:border-yellow-500 transition cursor-crosshair">PREMIUM_SS_2</div>
+                        </div>
+                        <button onclick="triggerSpin()" class="mt-4 text-[9px] gold-border px-4 py-1 rounded-full animate-pulse">LUCKY SPIN [COUPON]</button>
+                    </div>
+                </div>
             </div>
 
-            <div id="l1" class="layer-content layer-active">
-                <div class="space-y-4">
-                    <div class="p-4 bg-zinc-900/50 border-l-4 border-gold flex justify-between items-center">
-                        <span class="text-sm font-bold">BRONZE - SILVER</span>
-                        <span class="text-white">10K</span>
+            <div id="layer2" class="layer-content flex-col items-center justify-center">
+                <div class="w-full max-w-sm text-center">
+                    <h2 class="text-2xl font-bold mb-6 italic uppercase tracking-widest">Pricing Engine</h2>
+                    <select id="vRank" class="w-full p-4 bg-zinc-950 border gold-border rounded-xl mb-4 outline-none text-sm text-gold">
+                        <option value="10000">Bronze - Silver (10k)</option>
+                        <option value="35000">Bundle Plat - Diam (35k)</option>
+                        <option value="65000">Bundle Master - Legend (65k)</option>
+                        <option value="100000">Bundle Legend - Mythic (100k)</option>
+                    </select>
+                    <input type="number" id="vPoint" placeholder="Mythic Point (Kelipatan 1000)" class="w-full p-4 bg-zinc-950 border gold-border rounded-xl mb-4 outline-none text-sm text-gold">
+                    
+                    <div class="flex gap-2 mb-6">
+                        <input type="text" id="vCode" placeholder="Promo Code" class="flex-1 p-4 bg-zinc-950 border gold-border rounded-xl outline-none text-sm text-gold uppercase font-bold">
                     </div>
-                    <div class="p-4 bg-zinc-900/50 border-l-4 border-gold flex justify-between items-center">
-                        <span class="text-sm font-bold">LEGEND - MYTHIC</span>
-                        <span class="text-white font-['Orbitron']">100K</span>
+
+                    <button onclick="quantumCalc()" class="w-full gold-bg text-black font-black py-4 rounded-xl shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:scale-95 transition uppercase tracking-widest text-xs">Execute Total</button>
+                    <div class="mt-10">
+                        <p id="vPromoLabel" class="promo-badge"></p>
+                        <p class="text-[10px] uppercase opacity-50">Grand Total Amount</p>
+                        <h3 id="vRes" class="text-4xl font-['Orbitron'] font-bold text-white mt-2 tracking-tighter">Rp 0</h3>
                     </div>
-                    <div class="mt-8">
-                        <p class="text-[10px] opacity-40 mb-4 uppercase">Portofolio VIP</p>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="h-24 bg-zinc-800 border border-gold/10 rounded flex items-center justify-center text-[8px]">PREMIUM_SS_1</div>
-                            <div class="h-24 bg-zinc-800 border border-gold/10 rounded flex items-center justify-center text-[8px]">PREMIUM_SS_2</div>
+                </div>
+            </div>
+
+            <div id="layer3" class="layer-content flex-col overflow-y-auto pr-2">
+                <h2 class="text-xl font-bold mb-6 text-center uppercase tracking-[0.3em]">Elite Personnel</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xs font-bold mb-3 text-white border-b border-zinc-700 pb-1">COMMANDO (WORKERS)</h3>
+                        <div class="space-y-2">
+                            <div class="worker-card p-3 rounded-r-lg"><p class="text-sm font-bold">1. AKSAKA PEPEK</p><p class="text-[9px] text-green-500 font-bold uppercase blink">Active & Grinding</p></div>
+                            <div class="worker-card p-3 rounded-r-lg"><p class="text-sm font-bold">2. KAII</p><p class="text-[9px] text-green-500">READY TO GRIND</p></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-bold mb-3 text-white border-b border-zinc-700 pb-1">OVERSEER (ADMINS)</h3>
+                        <div class="space-y-2">
+                            <div class="worker-card p-3 rounded-r-lg border-blue-500"><p class="text-sm font-bold text-red-500 italic">2. AKSAKA (BOSS)</p><p class="text-[9px] text-blue-400 uppercase font-black tracking-widest">System Architect</p></div>
+                            <div class="worker-card p-3 rounded-r-lg border-blue-500"><p class="text-sm font-bold">1. STOKY VOLT</p><p class="text-[9px] text-blue-400">FINANCE & LOGS</p></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="l2" class="layer-content">
-                <div class="space-y-6">
-                    <select id="sR" class="w-full p-4 bg-black border border-gold/20 rounded text-xs outline-none">
-                        <option value="0">BRONZE</option><option value="15">LEGEND</option>
-                    </select>
-                    <div class="text-center opacity-20">▼</div>
-                    <select id="eR" class="w-full p-4 bg-black border border-gold/20 rounded text-xs outline-none">
-                        <option value="1">SILVER</option><option value="20">MYTHIC</option>
-                    </select>
-                    <button onclick="startBypass()" class="w-full bg-gold text-black font-black py-5 uppercase text-xs tracking-widest hover:invert transition">EXECUTE SYSTEM BYPASS</button>
-                    <h3 id="res" class="text-5xl text-center font-['Orbitron'] font-black mt-6 tracking-tighter">Rp 0</h3>
+            <div id="layer4" class="layer-content flex-col items-center justify-center">
+                <div class="w-full max-w-sm space-y-4">
+                    <h2 class="text-center font-bold mb-6 uppercase italic">Access Line</h2>
+                    <a href="https://wa.me/628891262208" class="flex items-center p-4 bg-zinc-900 border gold-border rounded-2xl hover:bg-gold hover:text-black transition group">
+                        <i class="fab fa-whatsapp text-2xl mr-4"></i>
+                        <div><p class="font-bold text-sm">ADMINISTRASI</p><p class="text-[9px] text-zinc-500">+62 889-1262-208</p></div>
+                    </a>
                 </div>
             </div>
 
-            <div id="l3" class="layer-content">
-                <div class="space-y-3">
-                    <div class="p-4 border border-gold/10 rounded flex justify-between text-xs">
-                        <span class="opacity-50">PRIME EXECUTIONER</span> <span class="font-bold uppercase">AKSAKA PEPEK</span>
-                    </div>
-                    <div class="p-4 border border-gold/10 rounded flex justify-between text-xs">
-                        <span class="opacity-50">CORE ARCHITECT</span> <span class="font-bold">STOKY VOLT</span>
-                    </div>
-                </div>
-            </div>
-
-            <div id="l4" class="layer-content items-center py-10">
-                <a href="https://wa.me/628891262208" class="flex items-center gap-6 p-6 border border-gold/20 w-full hover:bg-gold hover:text-black transition group">
-                    <i class="fab fa-whatsapp text-4xl"></i>
-                    <div><p class="font-black text-xs uppercase tracking-widest">Connect to Admin</p><p class="text-[8px] opacity-50">Direct Uplink Established</p></div>
-                </a>
-            </div>
         </main>
+        
+        <p class="mt-6 text-center text-[8px] tracking-[0.8em] text-zinc-700 uppercase">Aksaka Jailbreak Virtual Reality System V30.0</p>
     </div>
 
     <script>
-        // BACKGROUND 
-        const canvas = document.getElementById('canvas');
+        const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let particles = [];
-        for(let i=0; i<100; i++) particles.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*2});
-        function draw() {
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            ctx.fillStyle = "#d4af37";
-            particles.forEach(p => {
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
-                p.y -= 0.5; if(p.y < 0) p.y = canvas.height;
-            });
-            requestAnimationFrame(draw);
-        }
-        draw();
+        const letters = "010101AKSAKAJAILBREAKLURAX";
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        for (let x = 0; x < columns; x++) drops[x] = 1;
 
-        // CORE LOGIC
-        function st(id, btn) {
-            document.getElementById('bgMusic').play().catch(()=>{});
-            document.querySelectorAll('.layer-content').forEach(l => l.classList.remove('layer-active'));
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#d4af37"; ctx.font = fontSize + "px Share Tech Mono";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
+
+        function openTab(id) {
+            document.querySelectorAll('.layer-content').forEach(t => t.classList.remove('layer-active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('layer-active');
-            btn.classList.add('active');
-            
-            const talk = new SpeechSynthesisUtterance("Lurax Omnipotence Engaged.");
-            talk.rate = 1; talk.pitch = 0.1; window.speechSynthesis.speak(talk);
+            document.getElementById('b-' + id).classList.add('active');
+            const talk = new SpeechSynthesisUtterance("Welcome to Lurax.");
+            talk.pitch = 0.5; talk.rate = 0.9; window.speechSynthesis.speak(talk);
+            document.getElementById('bgMusic').play().catch(() => {});
         }
 
-        function startBypass() {
-            const scr = document.getElementById('bypass-screen');
-            const bar = document.getElementById('load-bar');
-            const log = document.getElementById('log-out');
-            const logs = ["> SCRACTHING KERNEL...", "> INJECTING PAYLOAD...", "> BYPASSING AUTH...", "> DONE."];
-            
-            scr.style.display = 'flex';
+        function triggerSpin() {
+            const spin = document.getElementById('wheel-container');
+            spin.style.display = 'block';
+            setTimeout(() => { document.getElementById('wheel-status').innerHTML = "YOU WON: VOUCHER 'AKSAKA_GANTENG' (20% OFF)"; }, 2000);
+        }
+
+        function closeSpin() { document.getElementById('wheel-container').style.display = 'none'; }
+
+        function quantumCalc() {
+            const overlay = document.getElementById('neural-overlay');
+            const bar = document.getElementById('neural-bar');
+            overlay.style.display = 'flex';
             let p = 0;
-            const int = setInterval(() => {
-                p += 2;
-                bar.style.width = p + '%';
-                if(p % 20 === 0) log.innerHTML += `<p>${logs[Math.floor(p/30)] || "> PROCESSING..."}</p>`;
-                if(p >= 100) {
-                    clearInterval(int);
-                    setTimeout(() => {
-                        scr.style.display = 'none';
-                        log.innerHTML = ''; bar.style.width = '0%';
-                        calculate();
-                    }, 500);
-                }
+            const interval = setInterval(() => {
+                p += 5; bar.style.width = p + '%';
+                if (p >= 100) { clearInterval(interval); overlay.style.display = 'none'; vCalc(); }
             }, 30);
         }
 
-        function calculate() {
-            let s = document.getElementById('sR').value;
-            let e = document.getElementById('eR').value;
-            let total = (e-s) * 9000;
-            if(s=="15" && e=="20") total = 100000;
-            if(total < 0) total = 0;
-            document.getElementById('res').innerText = "Rp " + total.toLocaleString('id-ID');
+        function vCalc() {
+            let r = parseInt(document.getElementById('vRank').value) || 0;
+            let p = (parseInt(document.getElementById('vPoint').value) || 0) * 30000;
+            let total = r + p;
+            const code = document.getElementById('vCode').value.toUpperCase();
+            const promo = document.getElementById('vPromoLabel');
+
+            if(code === "AKSAKA_GANTENG") { total *= 0.8; promo.innerText = "COUPON APPLIED: 20% DISCOUNT"; }
+            else if(code === "LURAX77") { total -= 5000; promo.innerText = "COUPON APPLIED: Rp 5.000 DISCOUNT"; }
+            else { promo.innerText = ""; }
+
+            document.getElementById('vRes').innerText = "Rp " + total.toLocaleString('id-ID');
+            
+            // SUNTIKAN AUTO CHAT WA
             setTimeout(() => {
-                window.open(`https://wa.me/628891262208?text=[OMNIPOTENCE_BYPASS] Order ID: Rp ${total.toLocaleString('id-ID')}`);
-            }, 1000);
+                const msg = `Halo Admin Aksaka, Order ID: Rp ${total.toLocaleString('id-ID')} (Voucher: ${code || 'NONE'})`;
+                window.open(`https://wa.me/628891262208?text=${encodeURIComponent(msg)}`);
+            }, 1500);
         }
     </script>
 </body>
