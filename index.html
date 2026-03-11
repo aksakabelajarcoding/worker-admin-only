@@ -2,188 +2,217 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AKSAKA V30.0 - SINGULARITY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AKSAKA V30.0 - OMNIPOTENCE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Share+Tech+Mono&display=swap');
-        :root { --g: #d4af37; --b: #000; }
-        body { background: var(--b); color: var(--g); font-family: 'Share Tech Mono', monospace; overflow: hidden; height: 100vh; }
+        :root { --g: #d4af37; --b: #000; --r: #ff0000; }
+        body { background: var(--b); color: var(--g); font-family: 'Share Tech Mono', monospace; overflow: hidden; height: 100vh; touch-action: none; }
         
-        #canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        #canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; opacity: 0.4; }
 
-        .singularity-box {
-            background: rgba(0, 0, 0, 0.85);
+        .omnipotence-frame {
+            background: rgba(0, 0, 0, 0.9);
             border: 1px solid var(--g);
-            box-shadow: 0 0 100px rgba(212, 175, 55, 0.1), inset 0 0 20px rgba(212, 175, 55, 0.1);
-            backdrop-filter: blur(30px);
-            border-radius: 20px;
+            box-shadow: 0 0 100px rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(40px);
+            border-radius: 2px; /* Kesan kaku militer tapi mewah */
             position: relative;
-            overflow: hidden;
+            z-index: 10;
+            border-top: 5px solid var(--g);
         }
 
-        /* SCANNER ANIMATION */
-        .scanner-line {
-            position: absolute; width: 100%; height: 2px;
-            background: var(--g); box-shadow: 0 0 15px var(--g);
-            top: -10%; left: 0; animation: scan 3s infinite linear;
-            z-index: 50; pointer-events: none; opacity: 0.3;
+        /* GLITCH ANIMATION */
+        .glitch { animation: g 0.2s infinite; }
+        @keyframes g { 
+            0% { transform: translate(1px, 1px); } 
+            50% { transform: translate(-1px, -2px); filter: hue-rotate(90deg); } 
+            100% { transform: translate(0); } 
         }
-        @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
 
-        .layer-content { display: none; opacity: 0; transform: scale(1.1); transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1); }
-        .layer-active { display: flex; flex-direction: column; opacity: 1; transform: scale(1); }
+        /* DATA STREAMING */
+        #data-stream { position: fixed; right: 10px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; font-size: 8px; opacity: 0.2; letter-spacing: 5px; }
 
-        .nav-btn { border: 1px solid rgba(212, 175, 55, 0.2); transition: 0.4s; text-transform: uppercase; font-size: 10px; letter-spacing: 2px; }
-        .nav-btn.active { background: var(--g); color: #000; box-shadow: 0 0 30px var(--g); font-weight: 900; }
+        .layer-content { display: none; opacity: 0; }
+        .layer-active { display: flex; flex-direction: column; opacity: 1; animation: slideIn 0.3s forwards; }
+        @keyframes slideIn { from { filter: blur(10px); opacity: 0; } to { filter: blur(0); opacity: 1; } }
 
-        /* TERMINAL STYLE */
-        .term-card { background: rgba(20,20,20,0.8); border-left: 3px solid var(--g); padding: 10px; font-size: 11px; }
-        .blink { animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
+        .nav-btn { position: relative; border: 1px solid rgba(212, 175, 55, 0.3); clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); transition: 0.3s; }
+        .nav-btn.active { background: var(--g); color: #000; box-shadow: 0 0 30px var(--g); transform: skewX(-5deg); }
+
+        /* KERNEL INJECTOR OVERLAY */
+        #injector {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 999; display: none;
+            padding: 40px; font-family: 'Share Tech Mono'; color: #0f0;
+        }
     </style>
 </head>
 <body class="flex items-center justify-center p-4">
 
     <canvas id="canvas"></canvas>
-    <div class="scanner-line"></div>
+    <div id="data-stream">AKSAKA_OMNIPOTENCE_SYSTEM_V30_ACTIVE</div>
 
-    <div class="fixed top-4 left-4 text-[8px] opacity-40 leading-tight">
-        SYS_STATUS: ACTIVE<br>CORE_TEMP: 32°C<br>ENCRYPTION: AES-256<br>USER_ID: AKSAKA_GUEST_110
+    <div id="injector">
+        <p class="text-xl mb-4 text-white font-bold">>> KERNEL INJECTION IN PROGRESS...</p>
+        <div class="w-full bg-zinc-900 h-2 mb-6"><div id="p-bar" class="bg-gold h-full w-0 transition-all"></div></div>
+        <div id="log-console" class="text-[10px] space-y-1"></div>
     </div>
 
     <audio id="bgMusic" loop src="https://files.catbox.moe/v3m7w0.mp3"></audio>
 
-    <div class="w-full max-w-5xl z-10">
-        <header class="text-center mb-10">
-            <h1 class="text-7xl font-black italic tracking-tighter font-['Orbitron']" style="text-shadow: 0 0 20px var(--g);">AKSAKA V30.0</h1>
-            <p class="text-[9px] tracking-[1.5em] opacity-50 mt-2 uppercase">Beyond Artificial Intelligence Paradigm</p>
+    <div class="w-full max-w-lg">
+        <header class="text-center mb-6 relative">
+            <h1 class="text-5xl font-black italic font-['Orbitron'] glitch uppercase">AKSAKA</h1>
+            <div class="text-[7px] tracking-[2em] opacity-40 -mt-2">LURAX SUPREMACY ENGINE</div>
         </header>
 
-        <main class="singularity-box p-8 md:p-12 min-h-[600px] flex flex-col items-center">
-            
-            <div class="flex flex-wrap justify-center gap-3 mb-12">
-                <button onclick="st('l1', this)" class="nav-btn active px-10 py-3 rounded-md">Archive</button>
-                <button onclick="st('l2', this)" class="nav-btn px-10 py-3 rounded-md">Neural_Engine</button>
-                <button onclick="st('l3', this)" class="nav-btn px-10 py-3 rounded-md">Personnel</button>
-                <button onclick="st('l4', this)" class="nav-btn px-10 py-3 rounded-md">Terminal</button>
+        <main class="omnipotence-frame p-6 min-h-[550px]">
+            <div class="grid grid-cols-4 gap-2 mb-10">
+                <button onclick="st('l1', this)" class="nav-btn active py-3 text-[8px] font-bold">MANIFEST</button>
+                <button onclick="st('l2', this)" class="nav-btn py-3 text-[8px] font-bold">OVERRIDE</button>
+                <button onclick="st('l3', this)" class="nav-btn py-3 text-[8px] font-bold">ASSETS</button>
+                <button onclick="st('l4', this)" class="nav-btn py-3 text-[8px] font-bold">UPLINK</button>
             </div>
 
-            <div id="l1" class="layer-content layer-active w-full">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="term-card">
-                        <p class="text-white mb-2 underline">[#] PRICELIST_DB</p>
-                        <p>ID_01: BRONZE-PLAT ➔ Rp 45.000</p>
-                        <p>ID_02: PLAT-DIAM   ➔ Rp 35.000</p>
-                        <p class="text-gold font-bold mt-4">ID_MASTER: LEGEND-MYTHIC ➔ Rp 100.000</p>
+            <div id="l1" class="layer-content layer-active">
+                <div class="space-y-4">
+                    <div class="p-4 bg-zinc-950 border border-gold/10 hover:border-gold transition">
+                        <div class="flex justify-between items-end">
+                            <div><p class="text-[9px] opacity-40">TARGET_01</p><p class="text-lg font-black">BRONZE - GOLD</p></div>
+                            <p class="text-white font-['Orbitron']">Rp 15.000</p>
+                        </div>
                     </div>
-                    <div class="flex flex-col justify-center items-center border border-white/5 rounded-xl p-4">
-                        <i class="fa fa-cube text-5xl mb-4 animate-spin-slow"></i>
-                        <p class="text-[10px] text-center opacity-60 uppercase">Lurax Joki Security Protocol: Verified by Aksaka Pepek</p>
+                    <div class="p-4 bg-zinc-950 border border-gold/10 hover:border-gold transition">
+                        <div class="flex justify-between items-end">
+                            <div><p class="text-[9px] opacity-40">TARGET_02</p><p class="text-lg font-black">LEGEND - MYTHIC</p></div>
+                            <p class="text-white font-['Orbitron']">Rp 100.000</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div id="l2" class="layer-content items-center w-full">
-                <div class="max-w-sm w-full space-y-6">
-                    <div class="bg-white/5 p-4 rounded border border-gold/20 text-center">
-                        <p class="text-[10px] mb-2">TARGET_ID_IDENTIFICATION</p>
-                        <select id="sR" class="w-full bg-black border-none text-gold outline-none text-center font-bold">
-                            <option value="0">BRONZE</option><option value="1">SILVER</option><option value="15">LEGEND</option>
-                        </select>
-                        <p class="my-2 opacity-30">TO</p>
-                        <select id="eR" class="w-full bg-black border-none text-gold outline-none text-center font-bold">
-                            <option value="1">SILVER</option><option value="15">LEGEND</option><option value="20">MYTHIC</option>
+            <div id="l2" class="layer-content">
+                <div class="space-y-6">
+                    <div class="relative">
+                        <label class="text-[9px] uppercase opacity-50 ml-2">Initial_Vector</label>
+                        <select id="sR" class="w-full p-4 bg-black border border-gold/20 rounded text-xs outline-none appearance-none">
+                            <option value="0">BRONZE</option><option value="15">LEGEND</option>
                         </select>
                     </div>
-                    <button onclick="exe()" class="w-full bg-gold text-black font-black py-4 rounded hover:tracking-[5px] transition-all">INITIALIZE_TRANSACTION</button>
-                    <div class="text-center">
-                        <span class="text-[10px] opacity-40">ESTIMATED_VALUE:</span>
-                        <h3 id="res" class="text-5xl font-black mt-2 tracking-tighter font-['Orbitron']">Rp 0</h3>
+                    <div class="relative">
+                        <label class="text-[9px] uppercase opacity-50 ml-2">Destination_Node</label>
+                        <select id="eR" class="w-full p-4 bg-black border border-gold/20 rounded text-xs outline-none appearance-none">
+                            <option value="1">SILVER</option><option value="20">MYTHIC</option>
+                        </select>
+                    </div>
+                    <button onclick="injectKernel()" class="w-full bg-gold text-black font-black py-5 uppercase text-xs tracking-[5px] hover:bg-white transition-all">Execute Override</button>
+                    <div class="text-center pt-4">
+                        <p class="text-[9px] opacity-30 mb-2 font-bold">CALCULATED_CREDITS</p>
+                        <h3 id="res" class="text-5xl font-black font-['Orbitron'] text-white">Rp 0</h3>
                     </div>
                 </div>
             </div>
 
-            <div id="l3" class="layer-content w-full">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <p class="text-[10px] font-bold text-white uppercase tracking-widest">Active_Units</p>
-                        <div class="term-card"><span class="text-gold font-bold">1_</span> AKSAKA PEPEK <span class="blink">_</span></div>
-                        <div class="term-card"><span>2_</span> KAII</div>
-                        <div class="term-card"><span>3_</span> ZANN</div>
+            <div id="l3" class="layer-content">
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="p-4 bg-white/5 border-r-4 border-gold text-[11px] flex justify-between">
+                        <span>PRIME_UNIT</span> <span class="font-bold">AKSAKA PEPEK</span>
                     </div>
-                    <div class="space-y-4">
-                        <p class="text-[10px] font-bold text-white uppercase tracking-widest">Root_Access</p>
-                        <div class="term-card border-blue-500"><span>A_</span> STOKY VOLT</div>
-                        <div class="bg-gold text-black p-2 font-black italic">BOSS_ LEVEL: AKSAKA</div>
+                    <div class="p-4 bg-white/5 border-r-4 border-blue-500 text-[11px] flex justify-between">
+                        <span>SYS_ADMIN</span> <span class="font-bold">STOKY VOLT</span>
+                    </div>
+                    <div class="p-4 bg-white/5 border-r-4 border-gold text-[11px] flex justify-between">
+                        <span>ELITE_OPS</span> <span class="font-bold">ZANN / MAZZBEE</span>
                     </div>
                 </div>
             </div>
 
-            <div id="l4" class="layer-content items-center">
-                <div class="w-full max-w-sm space-y-4">
-                    <div class="term-card border-green-500 mb-6">
-                        <p class="text-green-500 font-bold">> SYSTEM READY</p>
-                        <p class="text-white">> SELECT CHANNEL TO CONNECT...</p>
-                    </div>
-                    <button onclick="window.open('https://wa.me/628891262208')" class="w-full border border-gold p-4 text-xs hover:bg-gold hover:text-black transition">COM_CHANNEL_01 (ADMIN)</button>
-                    <button onclick="window.open('https://wa.me/6288902072245')" class="w-full border border-gold p-4 text-xs hover:bg-gold hover:text-black transition">COM_CHANNEL_02 (SECURITY)</button>
-                </div>
+            <div id="l4" class="layer-content items-center justify-center py-10">
+                <a href="https://wa.me/628891262208" class="group w-full p-8 border border-gold/20 text-center hover:bg-gold transition-all">
+                    <i class="fab fa-whatsapp text-4xl mb-4 group-hover:text-black"></i>
+                    <p class="text-xs font-black group-hover:text-black tracking-widest uppercase">Establish Comms Link</p>
+                </a>
             </div>
         </main>
     </div>
 
     <script>
-        // INTERACTIVE NEURAL NETWORK BACKGROUND
+        // OMNIPOTENCE CANVAS
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let particles = [];
-        let mouse = { x: null, y: null, radius: 150 };
+        let points = [];
+        for(let i=0; i<80; i++) points.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*2, d: Math.random()*0.5});
+        function draw() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = "#d4af37";
+            points.forEach(p => {
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+                p.y -= p.d; if(p.y < 0) p.y = canvas.height;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
 
-        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        // SYSTEM LOGIC
+        function st(id, btn) {
+            if (window.navigator.vibrate) window.navigator.vibrate(50);
+            document.getElementById('bgMusic').play().catch(()=>{});
+            document.querySelectorAll('.layer-content').forEach(l => l.classList.remove('layer-active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('layer-active');
+            btn.classList.add('active');
+            
+            const talk = new SpeechSynthesisUtterance("Welcome to Lurax Joki. Omnipotence System Engaged.");
+            talk.rate = 1; talk.pitch = 0.1; window.speechSynthesis.speak(talk);
+        }
 
-        class Particle {
-            constructor(x, y) {
-                this.x = x; this.y = y; this.size = 2;
-                this.baseX = this.x; this.baseY = this.y;
-                this.density = (Math.random() * 30) + 1;
-            }
-            draw() {
-                ctx.fillStyle = '#d4af37'; ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-            }
-            update() {
-                let dx = mouse.x - this.x; let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx*dx + dy*dy);
-                let forceDirectionX = dx / distance; let forceDirectionY = dy / distance;
-                let maxDistance = mouse.radius;
-                let force = (maxDistance - distance) / maxDistance;
-                let directionX = forceDirectionX * force * this.density;
-                let directionY = forceDirectionY * force * this.density;
+        function injectKernel() {
+            const inj = document.getElementById('injector');
+            const bar = document.getElementById('p-bar');
+            const con = document.getElementById('log-console');
+            const logs = ["ROOT_MOUNTING...", "BYPASSING_LURAX_FIREWALL...", "ENCRYPTING_USER_ID...", "V30_OVERRIDE_COMPLETE."];
+            
+            inj.style.display = 'block';
+            let p = 0;
+            let logIdx = 0;
 
-                if (distance < mouse.radius) {
-                    this.x -= directionX; this.y -= directionY;
-                } else {
-                    if (this.x !== this.baseX) { let dx = this.x - this.baseX; this.x -= dx/10; }
-                    if (this.y !== this.baseY) { let dy = this.y - this.baseY; this.y -= dy/10; }
+            const intv = setInterval(() => {
+                p += 5;
+                bar.style.width = p + '%';
+                if(p % 25 === 0) {
+                    con.innerHTML += `<p>> ${logs[logIdx]}</p>`;
+                    logIdx++;
                 }
-            }
+                if(p >= 100) {
+                    clearInterval(intv);
+                    setTimeout(() => {
+                        inj.style.display = 'none';
+                        con.innerHTML = ''; bar.style.width = '0';
+                        calculate();
+                    }, 800);
+                }
+            }, 50);
         }
 
-        function init() {
-            for (let i = 0; i < 200; i++) {
-                let x = Math.random() * canvas.width;
-                let y = Math.random() * canvas.height;
-                particles.push(new Particle(x, y));
-            }
+        function calculate() {
+            let s = document.getElementById('sR').value;
+            let e = document.getElementById('eR').value;
+            let total = (e-s) * 9000;
+            if(s=="15" && e=="20") total = 100000;
+            if(total < 0) total = 0;
+            document.getElementById('res').innerText = "Rp " + total.toLocaleString('id-ID');
+            setTimeout(() => {
+                window.open(`https://wa.me/628891262208?text=[OMNIPOTENCE_V30] Execute Order: Rp ${total.toLocaleString('id-ID')}`);
+            }, 1000);
         }
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
+    </script>
+</body>
+</html>
+      }
         init(); animate();
 
         // SYSTEM FUNCTIONS
