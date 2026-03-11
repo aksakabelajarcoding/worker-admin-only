@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKSAKA JAILBREAK -  LURAX SYSTEM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;600&display=swap');
+        
+        body { background: #000; color: #d4af37; font-family: 'Poppins', sans-serif; overflow: hidden; }
+        .gold-border { border: 1px solid #d4af37; }
+        .gold-bg { background: linear-gradient(145deg, #d4af37, #b8860b); }
+        .layer-content { display: none; height: 75vh; }
+        .layer-active { display: flex; animation: fadeIn 0.4s ease-out; }
+        .vip-card { background: rgba(10, 10, 10, 0.95); border: 2px solid #d4af37; box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
+        .nav-btn.active { background: #d4af37; color: #000; font-weight: bold; box-shadow: 0 0 15px #d4af37; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .worker-card { background: rgba(255,255,255,0.03); border-left: 3px solid #d4af37; }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/oe10ag.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="w-full max-w-5xl">
+        <header class="text-center mb-6">
+            <h1 class="text-4xl font-black tracking-widest gold-text font-['Orbitron'] uppercase">Aksaka Jailbreak</h1>
+            <p class="text-[10px] tracking-[0.4em] text-zinc-500 italic uppercase">Lurax High-End Joki System</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-2 mb-6">
+            <button onclick="openTab('layer1')" id="b-layer1" class="nav-btn active px-5 py-2 text-[10px] border gold-border rounded-full uppercase">List Price</button>
+            <button onclick="openTab('layer2')" id="b-layer2" class="nav-btn px-5 py-2 text-[10px] border gold-border rounded-full uppercase">Calculator</button>
+            <button onclick="openTab('layer3')" id="b-layer3" class="nav-btn px-5 py-2 text-[10px] border gold-border rounded-full uppercase">Our Team</button>
+            <button onclick="openTab('layer4')" id="b-layer4" class="nav-btn px-5 py-2 text-[10px] border gold-border rounded-full uppercase">Contact</button>
+        </nav>
+
+        <main class="vip-card rounded-3xl p-8 relative min-h-[520px]">
+            
+            <div id="layer1" class="layer-content layer-active flex-col">
+                <div class="grid md:grid-cols-2 gap-8 h-full">
+                    <div class="overflow-y-auto pr-4 border-r border-white/5">
+                        <h2 class="text-lg font-bold mb-4 uppercase gold-text italic tracking-tighter">Premium Menu</h2>
+                        <div class="space-y-3 text-xs">
+                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Bronze - Silver</span><span>10k</span></div>
+                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Silver - Gold</span><span>15k</span></div>
+                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Gold - Platinum</span><span>20k</span></div>
+                            <div class="flex justify-between border-b border-zinc-800 pb-1"><span>Platinum 4 - 3</span><span>9k</span></div>
+                            <div class="flex justify-between border-b border-zinc-800 pb-1 font-bold"><span>Bundling Legend - Mythic</span><span class="text-white">100k</span></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center items-center text-center">
+                        <h2 class="text-lg font-bold mb-4 uppercase italic">Portofolio VIP</h2>
+                        <div class="grid grid-cols-2 gap-2 w-full">
+                            <div class="h-24 bg-zinc-900 border border-zinc-800 rounded-lg flex items-center justify-center text-[10px] hover:border-yellow-500 transition">PREMIUM_SS_1</div>
+                            <div class="h-24 bg-zinc-900 border border-zinc-800 rounded-lg flex items-center justify-center text-[10px] hover:border-yellow-500 transition">PREMIUM_SS_2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="layer2" class="layer-content flex-col items-center justify-center">
+                <div class="w-full max-w-sm text-center">
+                    <h2 class="text-2xl font-bold mb-6 italic uppercase tracking-widest">Pricing Engine</h2>
+                    <select id="vRank" class="w-full p-4 bg-zinc-950 border gold-border rounded-xl mb-4 outline-none text-sm">
+                        <option value="10000" data-name="Bronze - Silver">Bronze - Silver (10k)</option>
+                        <option value="35000" data-name="Bundle Plat - Diam">Bundle Plat - Diam (35k)</option>
+                        <option value="50000" data-name="Bundle Diam - Master">Bundle Diam - Master (50k)</option>
+                        <option value="65000" data-name="Bundle Master - Legend">Bundle Master - Legend (65k)</option>
+                        <option value="100000" data-name="Bundle Legend - Mythic">Bundle Legend - Mythic (100k)</option>
+                    </select>
+                    <input type="number" id="vPoint" placeholder="Mythic Point (Kelipatan 1000)" class="w-full p-4 bg-zinc-950 border gold-border rounded-xl mb-6 outline-none text-sm">
+                    <button onclick="vCalcAndOrder()" class="w-full gold-bg text-black font-black py-4 rounded-xl shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:scale-95 transition uppercase tracking-widest text-xs">Execute & Order WA</button>
+                    <div class="mt-10">
+                        <p class="text-[10px] uppercase opacity-50">Grand Total Amount</p>
+                        <h3 id="vRes" class="text-4xl font-['Orbitron'] font-bold text-white mt-2">Rp 0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div id="layer3" class="layer-content flex-col overflow-y-auto pr-2">
+                <h2 class="text-xl font-bold mb-6 text-center uppercase tracking-[0.3em]">Elite Personnel</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xs font-bold mb-3 text-white border-b border-zinc-700 pb-1 uppercase">Commando (Workers)</h3>
+                        <div class="space-y-2">
+                            <div class="worker-card p-3 rounded-r-lg"><p class="text-sm font-bold">1. KAIROS</p><p class="text-[9px] text-green-500">ONLINE</p></div>
+                            <div class="worker-card p-3 rounded-r-lg"><p class="text-sm font-bold">2. KAII</p><p class="text-[9px] text-green-500">ONLINE</p></div>
+                            <div class="worker-card p-3 rounded-r-lg"><p class="text-sm font-bold">3. ZANN</p><p class="text-[9px] text-green-500">ONLINE</p></div>
+                            <div class="worker-card p-3 rounded-r-lg"><p class="text-sm font-bold">4. MAZZBEE</p><p class="text-[9px] text-green-500">ONLINE</p></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-bold mb-3 text-white border-b border-zinc-700 pb-1 uppercase">Overseer (Admins)</h3>
+                        <div class="space-y-2">
+                            <div class="worker-card p-3 rounded-r-lg border-blue-500"><p class="text-sm font-bold">1. STOKY VOLT</p></div>
+                            <div class="worker-card p-3 rounded-r-lg border-red-500 bg-red-900/10"><p class="text-sm font-bold text-red-500">2. AKSAKA (BOSS)</p></div>
+                            <div class="worker-card p-3 rounded-r-lg border-blue-500"><p class="text-sm font-bold">3. YANN</p></div>
+                            <div class="worker-card p-3 rounded-r-lg border-blue-500"><p class="text-sm font-bold">4. SKYYY</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="layer4" class="layer-content flex-col items-center justify-center">
+                <div class="w-full max-w-sm space-y-4">
+                    <h2 class="text-center font-bold mb-6 uppercase italic">Access Line</h2>
+                    <a href="https://wa.me/628891262208" target="_blank" class="flex items-center p-4 bg-zinc-900 border gold-border rounded-2xl hover:bg-zinc-800 transition">
+                        <i class="fab fa-whatsapp text-2xl mr-4"></i>
+                        <div><p class="font-bold text-sm">ADMINISTRASI</p><p class="text-[9px] text-zinc-500">+62 889-1262-208</p></div>
+                    </a>
+                    <a href="https://wa.me/6288902072245" target="_blank" class="flex items-center p-4 bg-zinc-900 border gold-border rounded-2xl hover:bg-zinc-800 transition">
+                        <i class="fa fa-shield-halved text-2xl mr-4"></i>
+                        <div><p class="font-bold text-sm">MANAGER (TECH ERROR)</p><p class="text-[9px] text-zinc-500">+62 889-0207-2245</p></div>
+                    </a>
+                </div>
+            </div>
+
+        </main>
+        
+        <p class="mt-6 text-center text-[8px] tracking-[0.8em] text-zinc-700 uppercase italic">Aksaka Jailbreak Virtual Reality Core V1</p>
+    </div>
+
+    <script>
+        function openTab(id) {
+            const tabs = document.getElementsByClassName('layer-content');
+            for (let t of tabs) { t.classList.remove('layer-active'); }
+            const btns = document.getElementsByClassName('nav-btn');
+            for (let b of btns) { b.classList.remove('active'); }
+
+            document.getElementById(id).classList.add('layer-active');
+            document.getElementById('b-' + id).classList.add('active');
+
+            const m = document.getElementById('bgMusic');
+            m.play().catch(() => {});
+        }
+
+        function vCalcAndOrder() {
+            const selectEl = document.getElementById('vRank');
+            const rankPrice = parseInt(selectEl.value) || 0;
+            const rankName = selectEl.options[selectEl.selectedIndex].getAttribute('data-name');
+            
+            const points = parseInt(document.getElementById('vPoint').value) || 0;
+            const pointPrice = points * 30000;
+            const total = rankPrice + pointPrice;
+
+            document.getElementById('vRes').innerText = "Rp " + total.toLocaleString('id-ID');
+
+            // AUTO CHAT LOGIC
+            const adminNum = "628891262208";
+            let msg = `Halo Admin Aksaka Jailbreak,\n\nSaya mau order Joki Lurax.\nDetail Order:\n- Paket: ${rankName}\n- Mythic Points: ${points * 1000}\n- Total Estimasi: Rp ${total.toLocaleString('id-ID')}\n\nMohon diproses, Boss!`;
+            
+            // Redirect ke WA setelah 1.5 detik biar user sempet liat totalnya
+            setTimeout(() => {
+                window.open(`https://wa.me/${adminNum}?text=${encodeURIComponent(msg)}`, '_blank');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
