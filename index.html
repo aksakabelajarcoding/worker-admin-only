@@ -3,92 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AKSAKA V30.0 - OMNIPOTENCE</title>
+    <title>AKSAKA V30.0 - OMNIPOTENCE ELITE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Share+Tech+Mono&display=swap');
-        :root { --g: #d4af37; --b: #000; --r: #ff0000; }
-        body { background: var(--b); color: var(--g); font-family: 'Share Tech Mono', monospace; overflow: hidden; height: 100vh; touch-action: none; }
+        :root { --g: #d4af37; --b: #000; }
+        body { background: var(--b); color: var(--g); font-family: 'Share Tech Mono', monospace; overflow: hidden; height: 100vh; touch-action: manipulation; }
         
-        #canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; opacity: 0.4; }
+        /* BACKGROUND PARTICLE GACOR */
+        #canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; opacity: 0.3; }
 
-        .omnipotence-frame {
-            background: rgba(0, 0, 0, 0.9);
+        .omnipotence-card {
+            background: rgba(5, 5, 5, 0.95);
             border: 1px solid var(--g);
-            box-shadow: 0 0 100px rgba(212, 175, 55, 0.2);
-            backdrop-filter: blur(40px);
-            border-radius: 2px; /* Kesan kaku militer tapi mewah */
+            box-shadow: 0 0 80px rgba(212, 175, 55, 0.15);
+            backdrop-filter: blur(25px);
+            border-radius: 10px;
             position: relative;
             z-index: 10;
-            border-top: 5px solid var(--g);
         }
 
-        /* GLITCH ANIMATION */
-        .glitch { animation: g 0.2s infinite; }
-        @keyframes g { 
-            0% { transform: translate(1px, 1px); } 
-            50% { transform: translate(-1px, -2px); filter: hue-rotate(90deg); } 
-            100% { transform: translate(0); } 
-        }
+        .layer-content { display: none; opacity: 0; transform: translateY(10px); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .layer-active { display: flex; flex-direction: column; opacity: 1; transform: translateY(0); }
 
-        /* DATA STREAMING */
-        #data-stream { position: fixed; right: 10px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; font-size: 8px; opacity: 0.2; letter-spacing: 5px; }
+        .nav-btn { border-bottom: 2px solid transparent; transition: 0.3s; font-size: 10px; letter-spacing: 2px; }
+        .nav-btn.active { border-color: var(--g); color: white; text-shadow: 0 0 10px var(--g); }
 
-        .layer-content { display: none; opacity: 0; }
-        .layer-active { display: flex; flex-direction: column; opacity: 1; animation: slideIn 0.3s forwards; }
-        @keyframes slideIn { from { filter: blur(10px); opacity: 0; } to { filter: blur(0); opacity: 1; } }
-
-        .nav-btn { position: relative; border: 1px solid rgba(212, 175, 55, 0.3); clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); transition: 0.3s; }
-        .nav-btn.active { background: var(--g); color: #000; box-shadow: 0 0 30px var(--g); transform: skewX(-5deg); }
-
-        /* KERNEL INJECTOR OVERLAY */
-        #injector {
+        /* FEATURE 100JT: BYPASS OVERLAY */
+        #bypass-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: black; z-index: 999; display: none;
-            padding: 40px; font-family: 'Share Tech Mono'; color: #0f0;
+            background: black; z-index: 9999; display: none;
+            flex-direction: column; justify-content: center; align-items: center;
+            font-family: 'Share Tech Mono';
         }
+
+        .glow-bar { width: 0%; height: 2px; background: var(--g); box-shadow: 0 0 20px var(--g); transition: 0.1s; }
     </style>
 </head>
 <body class="flex items-center justify-center p-4">
 
     <canvas id="canvas"></canvas>
-    <div id="data-stream">AKSAKA_OMNIPOTENCE_SYSTEM_V30_ACTIVE</div>
 
-    <div id="injector">
-        <p class="text-xl mb-4 text-white font-bold">>> KERNEL INJECTION IN PROGRESS...</p>
-        <div class="w-full bg-zinc-900 h-2 mb-6"><div id="p-bar" class="bg-gold h-full w-0 transition-all"></div></div>
-        <div id="log-console" class="text-[10px] space-y-1"></div>
+    <div id="bypass-screen">
+        <p class="mb-4 text-xs animate-pulse">> INITIALIZING NEURAL BYPASS...</p>
+        <div class="w-64 border border-zinc-800 h-2 mb-4">
+            <div id="load-bar" class="glow-bar"></div>
+        </div>
+        <div id="log-out" class="text-[8px] opacity-50 h-32 overflow-hidden w-64"></div>
     </div>
 
     <audio id="bgMusic" loop src="https://files.catbox.moe/v3m7w0.mp3"></audio>
 
     <div class="w-full max-w-lg">
-        <header class="text-center mb-6 relative">
-            <h1 class="text-5xl font-black italic font-['Orbitron'] glitch uppercase">AKSAKA</h1>
-            <div class="text-[7px] tracking-[2em] opacity-40 -mt-2">LURAX SUPREMACY ENGINE</div>
+        <header class="text-center mb-8">
+            <h1 class="text-5xl font-black italic font-['Orbitron'] tracking-tighter" style="text-shadow: 0 0 15px var(--g);">AKSAKA V30</h1>
+            <p class="text-[8px] tracking-[1.5em] opacity-40 uppercase">Omnipotence Lurax Prime</p>
         </header>
 
-        <main class="omnipotence-frame p-6 min-h-[550px]">
-            <div class="grid grid-cols-4 gap-2 mb-10">
-                <button onclick="st('l1', this)" class="nav-btn active py-3 text-[8px] font-bold">MANIFEST</button>
-                <button onclick="st('l2', this)" class="nav-btn py-3 text-[8px] font-bold">OVERRIDE</button>
-                <button onclick="st('l3', this)" class="nav-btn py-3 text-[8px] font-bold">ASSETS</button>
-                <button onclick="st('l4', this)" class="nav-btn py-3 text-[8px] font-bold">UPLINK</button>
+        <main class="omnipotence-card p-6 min-h-[500px]">
+            <div class="flex justify-between mb-10 border-b border-white/5">
+                <button onclick="st('l1', this)" class="nav-btn active px-2 py-4">PRICELIST</button>
+                <button onclick="st('l2', this)" class="nav-btn px-2 py-4">ENGINE</button>
+                <button onclick="st('l3', this)" class="nav-btn px-2 py-4">TEAM</button>
+                <button onclick="st('l4', this)" class="nav-btn px-2 py-4">UPLINK</button>
             </div>
 
             <div id="l1" class="layer-content layer-active">
                 <div class="space-y-4">
-                    <div class="p-4 bg-zinc-950 border border-gold/10 hover:border-gold transition">
-                        <div class="flex justify-between items-end">
-                            <div><p class="text-[9px] opacity-40">TARGET_01</p><p class="text-lg font-black">BRONZE - GOLD</p></div>
-                            <p class="text-white font-['Orbitron']">Rp 15.000</p>
-                        </div>
+                    <div class="p-4 bg-zinc-900/50 border-l-4 border-gold flex justify-between items-center">
+                        <span class="text-sm font-bold">BRONZE - SILVER</span>
+                        <span class="text-white">10K</span>
                     </div>
-                    <div class="p-4 bg-zinc-950 border border-gold/10 hover:border-gold transition">
-                        <div class="flex justify-between items-end">
-                            <div><p class="text-[9px] opacity-40">TARGET_02</p><p class="text-lg font-black">LEGEND - MYTHIC</p></div>
-                            <p class="text-white font-['Orbitron']">Rp 100.000</p>
+                    <div class="p-4 bg-zinc-900/50 border-l-4 border-gold flex justify-between items-center">
+                        <span class="text-sm font-bold">LEGEND - MYTHIC</span>
+                        <span class="text-white font-['Orbitron']">100K</span>
+                    </div>
+                    <div class="mt-8">
+                        <p class="text-[10px] opacity-40 mb-4 uppercase">Portofolio VIP</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="h-24 bg-zinc-800 border border-gold/10 rounded flex items-center justify-center text-[8px]">PREMIUM_SS_1</div>
+                            <div class="h-24 bg-zinc-800 border border-gold/10 rounded flex items-center justify-center text-[8px]">PREMIUM_SS_2</div>
                         </div>
                     </div>
                 </div>
@@ -96,106 +91,89 @@
 
             <div id="l2" class="layer-content">
                 <div class="space-y-6">
-                    <div class="relative">
-                        <label class="text-[9px] uppercase opacity-50 ml-2">Initial_Vector</label>
-                        <select id="sR" class="w-full p-4 bg-black border border-gold/20 rounded text-xs outline-none appearance-none">
-                            <option value="0">BRONZE</option><option value="15">LEGEND</option>
-                        </select>
-                    </div>
-                    <div class="relative">
-                        <label class="text-[9px] uppercase opacity-50 ml-2">Destination_Node</label>
-                        <select id="eR" class="w-full p-4 bg-black border border-gold/20 rounded text-xs outline-none appearance-none">
-                            <option value="1">SILVER</option><option value="20">MYTHIC</option>
-                        </select>
-                    </div>
-                    <button onclick="injectKernel()" class="w-full bg-gold text-black font-black py-5 uppercase text-xs tracking-[5px] hover:bg-white transition-all">Execute Override</button>
-                    <div class="text-center pt-4">
-                        <p class="text-[9px] opacity-30 mb-2 font-bold">CALCULATED_CREDITS</p>
-                        <h3 id="res" class="text-5xl font-black font-['Orbitron'] text-white">Rp 0</h3>
-                    </div>
+                    <select id="sR" class="w-full p-4 bg-black border border-gold/20 rounded text-xs outline-none">
+                        <option value="0">BRONZE</option><option value="15">LEGEND</option>
+                    </select>
+                    <div class="text-center opacity-20">▼</div>
+                    <select id="eR" class="w-full p-4 bg-black border border-gold/20 rounded text-xs outline-none">
+                        <option value="1">SILVER</option><option value="20">MYTHIC</option>
+                    </select>
+                    <button onclick="startBypass()" class="w-full bg-gold text-black font-black py-5 uppercase text-xs tracking-widest hover:invert transition">EXECUTE SYSTEM BYPASS</button>
+                    <h3 id="res" class="text-5xl text-center font-['Orbitron'] font-black mt-6 tracking-tighter">Rp 0</h3>
                 </div>
             </div>
 
             <div id="l3" class="layer-content">
-                <div class="grid grid-cols-1 gap-3">
-                    <div class="p-4 bg-white/5 border-r-4 border-gold text-[11px] flex justify-between">
-                        <span>PRIME_UNIT</span> <span class="font-bold">AKSAKA PEPEK</span>
+                <div class="space-y-3">
+                    <div class="p-4 border border-gold/10 rounded flex justify-between text-xs">
+                        <span class="opacity-50">PRIME EXECUTIONER</span> <span class="font-bold uppercase">AKSAKA PEPEK</span>
                     </div>
-                    <div class="p-4 bg-white/5 border-r-4 border-blue-500 text-[11px] flex justify-between">
-                        <span>SYS_ADMIN</span> <span class="font-bold">STOKY VOLT</span>
-                    </div>
-                    <div class="p-4 bg-white/5 border-r-4 border-gold text-[11px] flex justify-between">
-                        <span>ELITE_OPS</span> <span class="font-bold">ZANN / MAZZBEE</span>
+                    <div class="p-4 border border-gold/10 rounded flex justify-between text-xs">
+                        <span class="opacity-50">CORE ARCHITECT</span> <span class="font-bold">STOKY VOLT</span>
                     </div>
                 </div>
             </div>
 
-            <div id="l4" class="layer-content items-center justify-center py-10">
-                <a href="https://wa.me/628891262208" class="group w-full p-8 border border-gold/20 text-center hover:bg-gold transition-all">
-                    <i class="fab fa-whatsapp text-4xl mb-4 group-hover:text-black"></i>
-                    <p class="text-xs font-black group-hover:text-black tracking-widest uppercase">Establish Comms Link</p>
+            <div id="l4" class="layer-content items-center py-10">
+                <a href="https://wa.me/628891262208" class="flex items-center gap-6 p-6 border border-gold/20 w-full hover:bg-gold hover:text-black transition group">
+                    <i class="fab fa-whatsapp text-4xl"></i>
+                    <div><p class="font-black text-xs uppercase tracking-widest">Connect to Admin</p><p class="text-[8px] opacity-50">Direct Uplink Established</p></div>
                 </a>
             </div>
         </main>
     </div>
 
     <script>
-        // OMNIPOTENCE CANVAS
+        // BACKGROUND 
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let points = [];
-        for(let i=0; i<80; i++) points.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*2, d: Math.random()*0.5});
+        let particles = [];
+        for(let i=0; i<100; i++) particles.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*2});
         function draw() {
             ctx.clearRect(0,0,canvas.width,canvas.height);
             ctx.fillStyle = "#d4af37";
-            points.forEach(p => {
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
-                p.y -= p.d; if(p.y < 0) p.y = canvas.height;
+            particles.forEach(p => {
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
+                p.y -= 0.5; if(p.y < 0) p.y = canvas.height;
             });
             requestAnimationFrame(draw);
         }
         draw();
 
-        // SYSTEM LOGIC
+        // CORE LOGIC
         function st(id, btn) {
-            if (window.navigator.vibrate) window.navigator.vibrate(50);
             document.getElementById('bgMusic').play().catch(()=>{});
             document.querySelectorAll('.layer-content').forEach(l => l.classList.remove('layer-active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('layer-active');
             btn.classList.add('active');
             
-            const talk = new SpeechSynthesisUtterance("Welcome to Lurax Joki. Omnipotence System Engaged.");
+            const talk = new SpeechSynthesisUtterance("Lurax Omnipotence Engaged.");
             talk.rate = 1; talk.pitch = 0.1; window.speechSynthesis.speak(talk);
         }
 
-        function injectKernel() {
-            const inj = document.getElementById('injector');
-            const bar = document.getElementById('p-bar');
-            const con = document.getElementById('log-console');
-            const logs = ["ROOT_MOUNTING...", "BYPASSING_LURAX_FIREWALL...", "ENCRYPTING_USER_ID...", "V30_OVERRIDE_COMPLETE."];
+        function startBypass() {
+            const scr = document.getElementById('bypass-screen');
+            const bar = document.getElementById('load-bar');
+            const log = document.getElementById('log-out');
+            const logs = ["> SCRACTHING KERNEL...", "> INJECTING PAYLOAD...", "> BYPASSING AUTH...", "> DONE."];
             
-            inj.style.display = 'block';
+            scr.style.display = 'flex';
             let p = 0;
-            let logIdx = 0;
-
-            const intv = setInterval(() => {
-                p += 5;
+            const int = setInterval(() => {
+                p += 2;
                 bar.style.width = p + '%';
-                if(p % 25 === 0) {
-                    con.innerHTML += `<p>> ${logs[logIdx]}</p>`;
-                    logIdx++;
-                }
+                if(p % 20 === 0) log.innerHTML += `<p>${logs[Math.floor(p/30)] || "> PROCESSING..."}</p>`;
                 if(p >= 100) {
-                    clearInterval(intv);
+                    clearInterval(int);
                     setTimeout(() => {
-                        inj.style.display = 'none';
-                        con.innerHTML = ''; bar.style.width = '0';
+                        scr.style.display = 'none';
+                        log.innerHTML = ''; bar.style.width = '0%';
                         calculate();
-                    }, 800);
+                    }, 500);
                 }
-            }, 50);
+            }, 30);
         }
 
         function calculate() {
@@ -206,121 +184,8 @@
             if(total < 0) total = 0;
             document.getElementById('res').innerText = "Rp " + total.toLocaleString('id-ID');
             setTimeout(() => {
-                window.open(`https://wa.me/628891262208?text=[OMNIPOTENCE_V30] Execute Order: Rp ${total.toLocaleString('id-ID')}`);
+                window.open(`https://wa.me/628891262208?text=[OMNIPOTENCE_BYPASS] Order ID: Rp ${total.toLocaleString('id-ID')}`);
             }, 1000);
-        }
-    </script>
-</body>
-</html>
-      }
-        init(); animate();
-
-        // SYSTEM FUNCTIONS
-        function st(id, btn) {
-            if (window.navigator.vibrate) window.navigator.vibrate(20);
-            document.getElementById('bgMusic').play().catch(()=>{});
-            document.querySelectorAll('.layer-content').forEach(l => l.classList.remove('layer-active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('layer-active');
-            btn.classList.add('active');
-
-            // Neural Speech Simulation
-            const utterance = new SpeechSynthesisUtterance("Lurax Singularity System Accessed.");
-            utterance.pitch = 0.5; utterance.rate = 1; window.speechSynthesis.speak(utterance);
-        }
-
-        function exe() {
-            const s = document.getElementById('sR').value;
-            const e = document.getElementById('eR').value;
-            let total = (e - s) * 9000;
-            if (s == "15" && e == "20") total = 100000;
-            if (total < 0) total = 0;
-            
-            // Sound effect simulation
-            const synth = window.speechSynthesis;
-            synth.speak(new SpeechSynthesisUtterance("Calculating Transaction..."));
-
-            document.getElementById('res').innerText = "Rp " + total.toLocaleString('id-ID');
-            setTimeout(() => { window.open(`https://wa.me/628891262208?text=[SYSTEM_AUTH_V30] Request Order: Rp ${total.toLocaleString('id-ID')}`); }, 1500);
-        }
-    </script>
-</body>
-</html>
-sition"></i>
-                        <div><p class="font-black text-sm">OFFICIAL ADMIN</p><p class="text-[9px] opacity-60">General Order & Support</p></div>
-                    </a>
-                    <a href="https://wa.me/6288902072245" target="_blank" class="flex items-center p-6 bg-white/5 rounded-[30px] border border-gold/20 hover:bg-gold hover:text-black transition-all group">
-                        <i class="fa fa-skull text-4xl mr-6 group-hover:scale-110 transition"></i>
-                        <div><p class="font-black text-sm">SECURITY OPS</p><p class="text-[9px] opacity-60">Manager & Error Handler</p></div>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-        
-        <div class="mt-8 text-center">
-            <p class="text-[7px] tracking-[1.2em] font-bold opacity-30 uppercase italic">Aksaka Jailbreak Supremacy System V30.0</p>
-        </div>
-    </div>
-
-    <script>
-        function changeTab(id) {
-            const m = document.getElementById('bgMusic');
-            m.play().catch(() => {});
-            
-            document.querySelectorAll('.layer-content').forEach(l => { l.classList.remove('layer-active'); });
-            document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('active'); });
-            
-            setTimeout(() => { document.getElementById(id).classList.add('layer-active'); }, 50);
-            document.getElementById('bt-' + id).classList.add('active');
-        }
-
-        const prices = { "0-1": 10000, "1-2": 15000, "3-7": 35000, "7-11": 50000, "11-15": 65000, "15-20": 100000 };
-
-        function finalExecute() {
-            const s = document.getElementById('startR').value;
-            const e = document.getElementById('endR').value;
-            let total = prices[`${s}-${e}`] || (Math.abs(e-s) * 9000);
-            
-            document.getElementById('resV30').innerText = "Rp " + total.toLocaleString('id-ID');
-            document.getElementById('totalBox').style.opacity = "1";
-            
-            const startTxt = document.getElementById('startR').options[document.getElementById('startR').selectedIndex].text;
-            const endTxt = document.getElementById('endR').options[document.getElementById('endR').selectedIndex].text;
-            
-            const msg = `Halo Boss Aksaka V30,\n\nSaya mau order Joki VIP.\nDetail: ${startTxt} ➔ ${endTxt}\nTotal: Rp ${total.toLocaleString('id-ID')}\n\nEksekusi sekarang, Boss!`;
-            
-            setTimeout(() => { window.open(`https://wa.me/628891262208?text=${encodeURIComponent(msg)}`, '_blank'); }, 1500);
-        }
-    </script>
-</body>
-</html>
-d(id).classList.add('layer-active');
-            document.getElementById('b-' + id).classList.add('active');
-
-            const m = document.getElementById('bgMusic');
-            m.play().catch(() => {});
-        }
-
-        function vCalcAndOrder() {
-            const selectEl = document.getElementById('vRank');
-            const rankPrice = parseInt(selectEl.value) || 0;
-            const rankName = selectEl.options[selectEl.selectedIndex].getAttribute('data-name');
-            
-            const points = parseInt(document.getElementById('vPoint').value) || 0;
-            const pointPrice = points * 30000;
-            const total = rankPrice + pointPrice;
-
-            document.getElementById('vRes').innerText = "Rp " + total.toLocaleString('id-ID');
-
-            // AUTO CHAT LOGIC
-            const adminNum = "628891262208";
-            let msg = `Halo Admin Aksaka Jailbreak,\n\nSaya mau order Joki Lurax.\nDetail Order:\n- Paket: ${rankName}\n- Mythic Points: ${points * 1000}\n- Total Estimasi: Rp ${total.toLocaleString('id-ID')}\n\nMohon diproses, Boss!`;
-            
-            // Redirect ke WA setelah 1.5 detik biar user sempet liat totalnya
-            setTimeout(() => {
-                window.open(`https://wa.me/${adminNum}?text=${encodeURIComponent(msg)}`, '_blank');
-            }, 1500);
         }
     </script>
 </body>
